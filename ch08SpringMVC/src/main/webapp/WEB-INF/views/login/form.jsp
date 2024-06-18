@@ -9,6 +9,7 @@
 </head>
 <body>
 <form:form action="login.do" modelAttribute="loginVO">
+	<form:errors element="div"/>
 	아이디 : <form:input path="userId"/>
 			<form:errors path="userId"/>
 	<br>
