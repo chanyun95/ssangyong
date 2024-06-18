@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- @Controller 어노테이션을 이용한 컨트롤러를 사용하기 위한 설정 -->
+	<annotation-driven/>
+	
+	<!-- DispatcherServlet의 매핑 경로를 '/'로 주었을 때, JSP/HTML/CSS 등을 올바르게 처리하기 위한 설정 -->
+	<!-- <mvc:default-servlet-handler/> -->
+
+	<!--============================== viewResolver 설정============================= -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- MVC 기본 설정 -->
+	<beans:bean id="helloController"
+	     class="kr.spring.ch01.controller.HelloController"/>
+	
+	<!-- 파라미터로 전송된 데이터 처리 -->
+	<beans:bean id="searchController"
+	    class="kr.spring.ch02.controller.SearchController"/>
+
+	<!-- @Autowired 사용을 위해서 -->
+	<context:annotation-config/>
+
+	<!-- 전송된 데이터 자바빈(VO)에 담기 -->
+	<beans:bean id="newArticleController"
+	   class="kr.spring.ch03.controller.NewArticleController"/>
+	<beans:bean id="newArticleService"
+	   class="kr.spring.ch03.service.NewArticleService"/>   
+	
+	<!-- @CookieValue 어노테이션을 이용한 쿠키 매핑 -->
+	<beans:bean id="cookieController"
+	  class="kr.spring.ch04.controller.CookieController"/>
+	
+	<!-- 파라미터로 전달된 데이터를 자바빈에 담기 -->
+	<beans:bean 
+	 class="kr.spring.ch05.controller.GameSearchController"/>
+	<beans:bean
+	  class="kr.spring.ch05.service.SearchService"/>
+	
+	<!-- 유효성 체크 -->
+	<beans:bean class="kr.spring.ch06.controller.CreateAccountController"/>
+	
+	<!-- 리소스 번들 지정 -->
+	<beans:bean id="messageSource"
+	  class="org.springframework.context.support.ResourceBundleMessageSource">
+		<beans:property name="basenames">
+			<beans:list>
+				<beans:value>messages.validation</beans:value>
+			</beans:list>
+		</beans:property>  
+	</beans:bean>
+	
+	<!-- 로그인 처리 -->
+	<beans:bean class="kr.spring.ch07.controller.LoginController"/>
+	<beans:bean class="kr.spring.ch07.service.LoginService"/>
+</beans:beans>
+
+
+
+
