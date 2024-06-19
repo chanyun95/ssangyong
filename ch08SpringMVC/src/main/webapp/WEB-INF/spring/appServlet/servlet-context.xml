@@ -16,6 +16,7 @@
 	
 	<!-- viewResolver 시작 -->
 	<!--============================ viewResolver 설정 (1순위)=========================== -->
+	<!-- bean 이름과 view 의 이름이 같은 것이 없다면 실행 -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
@@ -87,6 +88,13 @@
 	<!-- 어노테이션을 이용한 유효성 체크 -->
 	<beans:bean class="kr.spring.ch09.controller.MemberWriteController"/>
 	
+	<!-- 파일 다운로드 -->
+	<beans:bean class="kr.spring.ch10.controller.DownloadController"/>
+	<beans:bean id="download" class="kr.spring.ch10.view.DownloadView"/>
+	
+	<!-- 엑셀 다운로드 -->
+	<beans:bean class="kr.spring.ch11.controller.PageRanksController"/>
+	<beans:bean id="pageRanks" class="kr.spring.ch11.view.PageRanksView"/>
 </beans:beans>
 
 

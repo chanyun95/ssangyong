@@ -1,11 +1,15 @@
 package kr.spring.ch10.view;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.servlet.view.AbstractView;
 
 public class DownloadView extends AbstractView{
@@ -22,7 +26,21 @@ public class DownloadView extends AbstractView{
 		response.setContentType(getContentType());
 		//컨텐트의 용량 지정
 		response.setContentLength((int)file.length());
-		
+		//파일명 구하기
+		String fileName = new String(file.getName().getBytes("utf-8"),"iso-8859-1");
+		response.setHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\";");
+		response.setHeader("Content-Transfer-Encoding", "binary");
+		//파일 쓰기
+		OutputStream out = response.getOutputStream();
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);//파일 읽기
+			//읽은 정보를 쓰기 정보로 변환(input > output 전송)
+			FileCopyUtils.copy(fis, out);
+		}finally {
+			if(fis!=null)try {fis.close();}catch(IOException e) {}
+		}
+		out.flush();//파일 전송
 	}
 	
 }
