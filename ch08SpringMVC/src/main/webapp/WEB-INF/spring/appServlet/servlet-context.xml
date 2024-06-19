@@ -13,12 +13,20 @@
 	
 	<!-- DispatcherServlet의 매핑 경로를 '/'로 주었을 때, JSP/HTML/CSS 등을 올바르게 처리하기 위한 설정 -->
 	<!-- <mvc:default-servlet-handler/> -->
-
-	<!--============================== viewResolver 설정============================= -->
+	
+	<!-- viewResolver 시작 -->
+	<!--============================ viewResolver 설정 (1순위)=========================== -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="1"/>
 	</beans:bean>
+	
+	<!-- 파일 다운로드를 위한 viewResolver -->
+	<!-- bean 이름과 view 의 이름이 같으면 클래스 호출  p:order="0" > (0순위)-->
+	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
+	
+	<!-- viewResolver 끝 -->
 	
 	<!-- MVC 기본 설정 -->
 	<beans:bean id="helloController"
@@ -75,6 +83,9 @@
 	
 	<!-- 파일 업로드 -->
 	<beans:bean class="kr.spring.ch08.controller.SubmitReportController"/>
+	
+	<!-- 어노테이션을 이용한 유효성 체크 -->
+	<beans:bean class="kr.spring.ch09.controller.MemberWriteController"/>
 	
 </beans:beans>
 
