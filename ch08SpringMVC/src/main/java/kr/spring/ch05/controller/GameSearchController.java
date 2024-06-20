@@ -21,7 +21,7 @@ public class GameSearchController {
 	}
 	
 	@RequestMapping("/search/game.do")
-													//@ModelAttribute("vo") 생략 가능
+								//@ModelAttribute("vo") 생략 가능
 	public ModelAndView search(@ModelAttribute("vo")
 															SearchVO searchVO) {
 		System.out.println("검색어 : " + searchVO.getQuery());

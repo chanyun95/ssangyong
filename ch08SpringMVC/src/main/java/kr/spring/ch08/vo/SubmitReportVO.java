@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class SubmitReportVO {
 	private String subject;
 	private MultipartFile reportFile;
+	
 	public String getSubject() {
 		return subject;
 	}
