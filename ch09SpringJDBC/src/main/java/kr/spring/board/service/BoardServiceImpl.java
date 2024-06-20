@@ -23,32 +23,27 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public int getBoardCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return boardDAO.getBoardCount();
 	}
 
 	@Override
 	public List<BoardVO> getBoardList(int startRow, int endRow) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardDAO.getBoardList(startRow, endRow);
 	}
 
 	@Override
 	public BoardVO getBoard(int num) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardDAO.getBoard(num);
 	}
 
 	@Override
 	public void updateBoard(BoardVO board) {
-		// TODO Auto-generated method stub
-		
+		boardDAO.updateBoard(board);
 	}
 
 	@Override
 	public void deleteBoard(int num) {
-		// TODO Auto-generated method stub
-		
+		boardDAO.deleteBoard(num);
 	}
 	
 }
