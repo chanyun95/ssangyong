@@ -4,6 +4,6 @@ create table aboard(
 	title varchar2(60) not null,
 	passwd varchar2(12) not null,
 	content clob not null,
-	reg_date date not null,
+	reg_date date not null
 );
 create sequence aboard_seq;
