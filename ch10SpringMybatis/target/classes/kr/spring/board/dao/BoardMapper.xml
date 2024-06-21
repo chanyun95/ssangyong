@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="kr.spring.board.dao.BoardDAO">  
+	<!-- 총레코드 수 -->
+	
+	<!-- <select id="selectBoardCount" resultType="java.lang.Integer"> -->
+	<select id="selectBoardCount" resultType="integer">
+		SELECT COUNT(*) FROM aboard
+	</select>
+	
+	<select id="selectBoardList" parameterType="map" resultType="boardVO">
+		<!-- cdata: 문법체크x -->
+		<![CDATA[
+		SELECT
+			*
+		FROM (SELECT
+				a.*,rownum rnum
+			  FROM (SELECT *
+					FROM aboard
+					ORDER BY num DESC)a)
+			WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>
+	</select>
+	
+	<!-- 글 쓰기 -->
+	<select id="insertBoard" parameterType="boardVO">
+		INSERT INTO aboard(num,
+						   writer,
+						   title,
+						   passwd,
+						   content,
+						   reg_date
+						   ) 
+					VALUES (aboard_seq.nextval,
+							#{writer},
+							#{title},
+							#{passwd},
+							#{content},
+							SYSDATE
+							)
+	</select>
+	
+	<!-- 글 상세 -->
+	<select id="selectBoard" parameterType="integer" resultType="boardVO">
+		SELECT *
+		FROM aboard
+		WHERE num = #{num}
+	</select>
+	
+	<!-- 글 수정 -->
+	<update id="updateBoard" parameterType="boardVO">
+		UPDATE aboard 
+		SET 
+		writer = #{writer}, 
+		title = #{title}, 
+		content = #{content} 
+		WHERE num = #{num}
+	</update>
+	<delete id="deleteBoard" parameterType="integer">
+		DELETE 
+		FROM aboard 
+		WHERE num = #{num}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
