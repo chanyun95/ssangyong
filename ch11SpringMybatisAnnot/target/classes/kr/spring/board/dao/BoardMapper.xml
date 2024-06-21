@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="kr.spring.board.dao.BoardMapper">
+	<!-- 어노테이션을 사용하면 xml 태그 사용X > 충돌 -->
+	<!-- 목록 -->
+	<!-- id는 메서드명으로 사용한다 -->
+	<select id="selectBoardList" parameterType="map" resultType="boardVO">
+		SELECT * FROM (SELECT a.*,rownum rnum FROM 
+			(SELECT * FROM aboard ORDER BY reg_date DESC)a) 
+		<![CDATA[
+		WHERE rnum >= #{start} AND rnum <= #{end}
+		]]>
+	</select>
+	<!-- 글 쓰기 -->
+	<insert id="insertBoard" parameterType="boardVO">
+		INSERT INTO aboard(
+			num,writer,title,passwd,content,reg_date
+		)
+		VALUES(
+			aboard_seq.nextval,#{writer},#{title},#{passwd},#{content},SYSDATE
+		)
+	</insert>
+ </mapper>
+
+
+
+
+
+
+

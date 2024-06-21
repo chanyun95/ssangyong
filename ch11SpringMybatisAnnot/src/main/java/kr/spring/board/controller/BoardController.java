@@ -28,14 +28,14 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	//로그 처리(로그 대상 지정)
-	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
+	private static final Logger log = 
+			LoggerFactory.getLogger(BoardController.class);
 	
 	//유효성 체크를 위한 자바빈(VO) 초기화
 	@ModelAttribute
 	public BoardVO initCommand(){
 		return new BoardVO();
 	}
-	
 	//글쓰기 폼 호출
 	@GetMapping("/insert.do")
 	public String form() {
@@ -43,8 +43,8 @@ public class BoardController {
 	}
 	//전송된 데이터 처리
 	@PostMapping("/insert.do")
-	public String submit(@Valid BoardVO vo, BindingResult result) {
-
+	public String submit(@Valid BoardVO vo, 
+			                  BindingResult result) {
 		log.debug("<<BoardVO>> : " + vo);
 		
 		//유효성 체크 결과 오류가 있으면 폼 호출
@@ -57,19 +57,24 @@ public class BoardController {
 		return "redirect:/list.do";
 	}
 	
+	//목록
 	@RequestMapping("/list.do")
-	public ModelAndView getList(@RequestParam(value="pageNum",defaultValue="1") int currentPage) {
+	public ModelAndView getList(
+			@RequestParam(value="pageNum",
+			          defaultValue="1") int currentPage) {
 		//총레코드 수
 		int count = boardService.selectBoardCount();
 		//페이지 처리
-		PagingUtil page = new PagingUtil(currentPage,count,20,10,"list.do");
+		PagingUtil page = 
+			new PagingUtil(currentPage,count,20,10,"list.do");
 		
 		//목록 호출
 		List<BoardVO> list = null;
 		if(count > 0) {
-			Map<String,Integer> map = new HashMap<>();
-			map.put("start",page.getStartRow());
-			map.put("end",page.getEndRow());
+			Map<String,Integer> map = 
+					       new HashMap<String,Integer>();
+			map.put("start", page.getStartRow());
+			map.put("end", page.getEndRow());
 			list = boardService.selectBoardList(map);
 		}
 		
@@ -77,57 +82,62 @@ public class BoardController {
 		//뷰 이름 설정
 		mav.setViewName("selectList");
 		//데이터 저장
-		mav.addObject("count",count);
-		mav.addObject("list",list);
-		mav.addObject("page",page.getPage());
+		mav.addObject("count", count);
+		mav.addObject("list", list);
+		mav.addObject("page", page.getPage());
 		
 		return mav;
 	}
-	//글 상세
-	@RequestMapping("detail.do")
+	//글상세
+	@RequestMapping("/detail.do")
 	public ModelAndView detail(int num) {
-		BoardVO board = boardService.selectBoard(num);
-		
-		return new ModelAndView("selectDetail","board", board);
+		BoardVO board = 
+				boardService.selectBoard(num);
+		return new ModelAndView("selectDetail","board",board);
 	}
-	//글 수정 폼 호출
+	//수정 폼 호출
 	@GetMapping("/update.do")
 	public String formUpdate(int num,Model model) {
-		model.addAttribute("boardVO",boardService.selectBoard(num));
+		model.addAttribute("boardVO", 
+				boardService.selectBoard(num));
 		
 		return "updateForm";
 	}
-	//글 수정
 	//전송된 데이터 처리
 	@PostMapping("/update.do")
-	public String submitUpdate(@Valid BoardVO vo,BindingResult result) {
+	public String submitUpdate(@Valid BoardVO vo,
+			                   BindingResult result) {
 		log.debug("<<BoardVO>> : " + vo);
 		
 		//유효성 체크 결과 오류가 있으면 폼 호출
 		if(result.hasErrors()) {
 			return "updateForm";
 		}
+		
 		//비밀번호 일치 여부 체크
 		//DB에 저장된 비밀번호 구하기
-		BoardVO db_board = boardService.selectBoard(vo.getNum());
+		BoardVO db_board = 
+				boardService.selectBoard(vo.getNum());
 		//비밀번호 체크
 		if(!db_board.getPasswd().equals(vo.getPasswd())) {
 			result.rejectValue("passwd", "invalidPassword");
 			return "updateForm";
 		}
-		//글 수정 실행
-		boardService.updateBoard(vo);
+		
+		//글 수정
+		boardService.updateBoard(vo);		
 		
 		return "redirect:/list.do";
 	}
 	//글 삭제 폼 호출
 	@GetMapping("/delete.do")
 	public String formDelete(BoardVO vo) {
-		
 		return "deleteForm";
 	}
+	//글 삭제 처리
 	@PostMapping("/delete.do")
-	public String submitDelete(@Valid BoardVO vo,BindingResult result) {
+	public String submitDelete(@Valid BoardVO vo,
+			                   BindingResult result) {
 		log.debug("<<BoardVO>> : " + vo);
 		
 		//유효성 체크 결과 오류가 있으면 폼 호출
@@ -137,19 +147,22 @@ public class BoardController {
 		}
 		//비밀번호 일치 여부 체크
 		//DB에 저장된 비밀번호 구하기
-		BoardVO db_board = boardService.selectBoard(vo.getNum());
+		BoardVO db_board = 
+				boardService.selectBoard(vo.getNum());
 		//비밀번호 체크
 		if(!db_board.getPasswd().equals(vo.getPasswd())) {
 			result.rejectValue("passwd", "invalidPassword");
 			return "deleteForm";
 		}
-		//글 수정 실행
+		//글 삭제
 		boardService.deleteBoard(vo.getNum());
 		
 		return "redirect:/list.do";
 	}
-	
 }
+
+
+
 
 
 
