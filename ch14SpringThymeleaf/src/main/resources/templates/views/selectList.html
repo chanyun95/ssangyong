@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>게시판 목록</title>
+						<!-- th(접두사): > thymeleaf 속성 -->
+<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+</head>
+<body>
+	<div class="page-main">
+		<h2>게시판 목록</h2>
+		<div class="align-right">
+			<input type="button" value="글 쓰기" onclick="location.href='insert.do'">
+		</div>
+		<div class="result-display" th:if="${count == 0}">
+			표시할 내용이 없습니다.
+		</div>
+		<div class="align-center" th:if="${count > 0}">
+			<table>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>작성일</th>
+				</tr>
+				<tr th:each="board : ${list}">
+					<td>[[${board.num}]]</td><!-- [[데이터]] 도 사용 가능 -->
+					<!-- detail.do? > ? 대신 () 사용 (괄호안에 ? 에 들어가야하는 데이터 입력)-->
+					<td><a th:href="@{detail.do(num=${board.num})}" th:text="${board.title}"></a></td>
+					<td th:text="${board.writer}"></td>
+					<td th:text="${board.reg_date}"></td>
+				</tr>
+			</table>
+			<div class="align-center" th:utext="${page}"></div><!-- utext 는 태그 허용 -->
+		</div>
+	</div>
+</body>
+</html>
