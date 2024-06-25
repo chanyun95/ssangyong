@@ -1,10 +1,12 @@
-<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/basicLayout}"><head>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
 <meta charset="UTF-8">
 <title>글 상세</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
 </head>
 <body>
-	<div layout:fragment="content" class="page-main">
+	<div class="page-main">
 		<h2 th:text="${board.title}"></h2>
 		<p>
 			<span th:text="'글 번호 : ' + ${board.num}"></span><br>

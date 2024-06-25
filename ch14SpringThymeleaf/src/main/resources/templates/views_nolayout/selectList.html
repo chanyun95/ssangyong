@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/basicLayout}">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>목록</title>
+<title>게시판 목록</title>
+						<!-- th(접두사): > thymeleaf 속성 -->
+<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
 </head>
 <body>
-	<div layout:fragment="content" class="page-main">
+	<div class="page-main">
 		<h2>게시판 목록</h2>
 		<div class="align-right">
 			<input type="button" value="글 쓰기" onclick="location.href='insert.do'">

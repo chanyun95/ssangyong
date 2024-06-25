@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/basicLayout}">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>글 쓰기</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
 </head>
 <body>
-	<div layout:fragment="content" class="page-main">
+	<div class="page-main">
 		<h2>글 쓰기</h2>
 		<!-- thymeleaf 에서는 폼 커스텀 사용 불가 -->
 		<!-- th:object > request에 저장되어 있는 자바빈 호출 -->
