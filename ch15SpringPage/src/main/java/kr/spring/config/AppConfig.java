@@ -15,7 +15,8 @@ public class AppConfig implements WebMvcConfigurer{
 		final TilesConfigurer configurer = new TilesConfigurer();
 		//XML 설정 파일 경로 지정
 		configurer.setDefinitions(new String[] {
-				"/WEB-INF/tiles-def/main.xml"
+				"/WEB-INF/tiles-def/main.xml",
+				"/WEB-INF/tiles-def/member.xml"
 		});
 		configurer.setCheckRefresh(true);
 		return configurer;
@@ -28,4 +29,5 @@ public class AppConfig implements WebMvcConfigurer{
 		
 		return tilesViewResolver;
 	}
+	
 }

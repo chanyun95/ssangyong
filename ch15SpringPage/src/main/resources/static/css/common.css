@@ -12,6 +12,13 @@
 	margin-bottom:10px;
 	padding:0 10px 0 0;
 }
+#main_body{
+	padding:5px 5px 30px 5px;
+	min-height:500px;
+}
+#main_footer{
+	background-color:yellow;
+}
 a:link{
 	text-decoration:none;
 	color:#000000;
@@ -27,14 +34,12 @@ a:hover{
 /* 페이지 레이아웃
 ---------------------*/
 .page-main{
-	background:#FFFFFF;
-	margin:40px 0;
-	border-radius:5px;
-	box-shadow:0 2px 6px rgba(100,100,100,0.3);
-	min-height:650px;
+	width:98%;
+	margin:0 auto;
 }
-.content-main{
-	padding:10px 20px;
+.page-one{
+	width:600px;
+	margin:0 auto;
 }
 /* 공통 메시지
 ---------------------*/
@@ -55,15 +60,13 @@ a:hover{
 .align-right{
 	text-align:right;
 }
-/* 메뉴
+/* 상단 메뉴
 ---------------------*/
-#main_logo{
-	padding-top:20px;
+div#main_menu li{
+	list-style:none;	
 }
-#main_nav{
-	padding:2px 10px 20px 10px;
-	height:20px;
-	background-color:#C1BFBF;
+div#main_menu ul li{
+	margin-bottom:5px;	
 }
 #main_nav ul{
 	list-style:none;
@@ -112,101 +115,32 @@ form{
 	width:600px;
 	margin:0 auto;
 	border:1px solid #000;
-	padding:10px 10px 10px 30px;
-}
-form ul li{
-	clear:both;
+	padding:10px 10px 30px 10px;
 }
 form ul li label{
-	width:130px;
-	float:left; /*태그를 왼쪽으로 정렬*/
+	width:110px;
+	display:inline-block;
 }
 ul {
 	list-style:none;
 }
-input{
+input,select{
 	margin-top:4px;
+	padding:5px;
 }
 input[type="text"],input[type="password"],
                                      input[type="email"]{
-	width:310px;	
-}
-#register_form input[id="id"]{
-	width:223px;
-}
-input[id="zipcode"]{
-	width:205px;
-}
-input[type="number"]{
-	width:100px;
-}
-.form-notice{
-	margin-left:130px;
-}
-/* 로그인
----------------------*/
-#login_form{
-	width:300px;
-	margin:0 auto;
-	padding:0;
-	border:none;
-}
-#login_form ul{
-	padding:0;
-}
-.floating-label{/*floating label 설정*/
-	position:relative;
-}
-.floating-label > .form-input{
-	width:300px;
-	height:32px;
-	padding:0.55rem 0.55rem;
-}
-.floating-label > label{
-	position:absolute;
-	top:0;
-	left:0;
-	padding:1.05rem 0.75rem;
-	transition:all 0.25s;
-}
-.floating-label > .form-input::placeholder{
-	color:transparent;
-}
-.floating-label > .form-input:focus, 
- .floating-label > .form-input:not(:placeholder-shown){
-	padding-top:1.125rem;
-	padding-bottom:0.125rem;      
-}
-
-.floating-label > .form-input:focus + label, 
- .floating-label > .form-input:not(:placeholder-shown) + label{
-	opacity:0.65;
-	transform:scale(0.85) translateY(-0.5rem) translateX(-0.5rem);      
-}
-/* MY페이지
----------------------*/
-.mypage-div{
-	width:48%;
-	float:left;
-	padding:5px;
-}
-.mypage-end{
-	clear:both;
-}
-.my-photo{
-	object-fit:cover;
-	/*정사각형이 아니라 직사각형일 경우 원 안에 보여지게 할 중심 이미지의 위치를 지정*/
-	object-position:top;
-	/*사각형의 모서리 둥근 정도를 지정하는 속성,50%를 지정하면 완전한 원*/
-	border-radius:50%;
+	width:350px;	
 }
 /* 공통 목록
 ---------------------*/
 form#search_form{
+	width:98%;
+	padding-bottom:0;
 	border:none;
 }
 ul.search{
-	width:340px;
+	width:380px;
 	list-style:none;
 	padding:0;
 	margin:0 auto;
@@ -216,8 +150,12 @@ ul.search li{
 	padding:0;
 	display:inline;
 }
+ul.search li select{
+	height:30px;
+}
 .list-space{
-	margin-bottom:10px;
+	width:700px;
+	margin:10px auto;
 }
 table{
 	width:100%;
@@ -229,6 +167,35 @@ table td, table th{
 	border:1px solid #000;
 	padding:5px;
 }
+/* 공통 버튼
+---------------------*/
+[type="submit"],[type="button"]{
+	height:30px;
+}
+.menu-btn{
+	width:100%;
+	height:50px;
+	font-size:12pt;
+	background-color:#FCFCFC;
+	border-color:#B7B5B5;
+	border-radius:5px;
+}
+.default-btn{
+	padding:4px 20px;
+	border:1px solid #09AA5C;
+	border-radius:2px;
+	color:#FFF;
+	background-color:#09AA5C;
+	font-weight:bold;
+	cursor:pointer;
+}
+.default-btn:hover{
+	background-color:#FFF;
+	color:#09AA5C;
+	transition:0.2s ease-out;
+	height:30px;
+}
+
 /* 게시판 글상세
 ---------------------*/
 ul.detail-info li{
