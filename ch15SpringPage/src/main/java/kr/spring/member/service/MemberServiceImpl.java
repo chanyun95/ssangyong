@@ -22,8 +22,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberVO selectCheckMember(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return memberMapper.selectCheckMember(id);
 	}
 
 	@Override

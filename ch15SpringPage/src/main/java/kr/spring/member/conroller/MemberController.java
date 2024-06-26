@@ -57,4 +57,18 @@ public class MemberController {
 		
 		return "common/resultView";
 	}
+	/*=============================
+	 * 회원로그인
+	 ============================*/
+	//로그인 폼 호출
+	@GetMapping("/member/login")
+	public String formLogin() {
+		return "memberLogin";
+	}
+	
+	
+	
+	
+	
+	
 }

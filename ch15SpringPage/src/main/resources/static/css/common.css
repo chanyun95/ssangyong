@@ -91,6 +91,9 @@ div#main_menu ul li{
 	width:150px;
 	text-align:left;
 }
+.error-color{
+	color:#FF0000;
+}
 /* 메인
 ---------------------*/
 .image-space .horizontal-area{
