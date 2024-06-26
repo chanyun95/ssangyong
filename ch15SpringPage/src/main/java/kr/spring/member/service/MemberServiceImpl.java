@@ -27,8 +27,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberVO selectMember(Long mem_num) {
-		// TODO Auto-generated method stub
-		return null;
+		return memberMapper.selectMember(mem_num);
 	}
 
 	@Override
