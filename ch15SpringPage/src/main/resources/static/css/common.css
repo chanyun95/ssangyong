@@ -135,6 +135,51 @@ input[type="text"],input[type="password"],
                                      input[type="email"]{
 	width:350px;	
 }
+/* Admin
+---------------------*/
+.side-bar{
+	margin:10px 10px 10px 0;
+	padding:10px;
+	/* 사이드바의 높이가 컨텐트의 높이와 동일하게 자동 조정 */
+	margin-bottom:-9999px;
+	padding-bottom:9999px;
+	background-color:#CECCCC;
+}
+.side-bar ul{
+	margin:0;
+	padding:0;
+}
+.side-bar ul li{
+	padding:5px 10px 5px 10px;
+}
+.side-bar ul li img{
+	margin-left:3px;
+}
+.side-height{
+	/* 사이드바의 높이가 컨텐트의 높이와 동일하게 자동 조절하기 위해 흘러넘친 배경색은 숨김 */
+	overflow:hidden;
+	margin-bottom:10px;
+}
+.page_nav{
+	float:left;
+	width:25%;
+	min-height:530px;
+}
+.page_body{
+	width:75%;
+	float:left;
+}
+#page-clear{
+	clear:both;
+}
+/* 공통 프로필
+---------------------*/
+.my-photo{
+	object-fit:cover;/* 영역에 맞춤 */
+	/* 정사각형이 아니라 직사각형일 경우 원 안에 보여지게 할 중심 이미지의 위치를 지정 */
+	object-position:top;
+	border-radius:50%;
+}
 /* 공통 목록
 ---------------------*/
 form#search_form{

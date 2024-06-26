@@ -5,7 +5,7 @@
 	<ul>
 		<li>
 			<img src="${pageContext.request.contextPath}/member/photoView" width="200" height="200" class="my-photo">
-			<div class="camera" id="photo_btn"><img src="${pageContext.request.contextPath}/iamges/camera.png" width="35"></div>
+			<div class="camera" id="photo_btn"><img src="${pageContext.request.contextPath}/images/camera.png" width="35"></div>
 		</li>
 		<li>
 			<div id="photo_choice" style="display:none;">

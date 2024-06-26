@@ -23,7 +23,7 @@ public class MemberAjaxController {
 	@GetMapping("/member/confirmId")
 	@ResponseBody
 	public Map<String, String> process(@RequestParam String id){
-		
+		 
 		log.debug("<<아이디 중복 체크>> : " + id);
 		
 		Map<String, String> mapAjax = new HashMap<String, String>();

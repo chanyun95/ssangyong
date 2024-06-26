@@ -92,7 +92,7 @@ public class MemberController {
 			if(check) {//인증 성공
 				//====== 자동로그인 체크 시작 =======//
 				//====== 자동로그인 체크 끝 =======//
-				//로그인 처리
+				//로그인 처리  
 				session.setAttribute("user", member);
 				
 				log.debug("<<인증성공>>");
@@ -105,7 +105,7 @@ public class MemberController {
 				}else {
 					return "redirect:/main/main";
 				}
-			}
+			} 
 			//인증 실패
 			throw new AuthCheckException();
 		}catch(AuthCheckException e) {
