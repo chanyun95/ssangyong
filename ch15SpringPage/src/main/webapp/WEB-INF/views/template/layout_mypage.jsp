@@ -14,10 +14,15 @@
 		<div id="main_header">
 			<tiles:insertAttribute name="header"/>
 		</div>
-		<div id="main_body">
-			<tiles:insertAttribute name="body"/>
+		<div id="side-height">
+			<div class="page_nav">
+				<tiles:insertAttribute name="nav"/>
+			</div>
+			<div class="page_body">
+				<tiles:insertAttribute name="body"/>
+			</div>
 		</div>
-		<div id="main_footer">
+		<div id="main_footer" class="page_clear">
 			<tiles:insertAttribute name="footer"/>
 		</div>
 	</div>
