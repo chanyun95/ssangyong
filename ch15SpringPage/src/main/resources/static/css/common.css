@@ -19,6 +19,7 @@
 #main_footer{
 	background-color:yellow;
 }
+
 a:link{
 	text-decoration:none;
 	color:#000000;
@@ -52,6 +53,9 @@ a:hover{
 	align-items:center;/*세로 정렬*/
 	justify-content:center;/*가로 정렬*/
 }
+.error-color{
+	color:#ff0000;
+}
 /* 공통 정렬
 ---------------------*/
 .align-center{
@@ -63,36 +67,10 @@ a:hover{
 /* 상단 메뉴
 ---------------------*/
 div#main_menu li{
-	list-style:none;	
+	list-style:none;
 }
 div#main_menu ul li{
-	margin-bottom:5px;	
-}
-#main_nav ul{
-	list-style:none;
-	margin:0;
-	padding:0;
-}
-#main_nav ul li{
-	display:inline-block;
-	width:100px;
-	text-align:center;
-	vertical-align:middle;
-	padding-top:8px;
-}
-#main_nav ul li img.my-photo{
-	vertical-align:middle;
-}
-#main_nav ul li.menu-profile{
-	padding-top:5px;
-	width:25px;
-}
-#main_nav ul li.menu-logout{
-	width:150px;
-	text-align:left;
-}
-.error-color{
-	color:#FF0000;
+	margin-bottom:5px;
 }
 /* 메인
 ---------------------*/
@@ -135,15 +113,15 @@ input[type="text"],input[type="password"],
                                      input[type="email"]{
 	width:350px;	
 }
-/* Admin
+/* Admin, MY페이지 공통
 ---------------------*/
 .side-bar{
 	margin:10px 10px 10px 0;
 	padding:10px;
-	/* 사이드바의 높이가 컨텐트의 높이와 동일하게 자동 조정 */
+	/*사이드바의 높이가 컨텐트의 높이와 동일하게 자동 조절*/
 	margin-bottom:-9999px;
 	padding-bottom:9999px;
-	background-color:#CECCCC;
+	background-color:#cecccc;
 }
 .side-bar ul{
 	margin:0;
@@ -156,27 +134,27 @@ input[type="text"],input[type="password"],
 	margin-left:3px;
 }
 .side-height{
-	/* 사이드바의 높이가 컨텐트의 높이와 동일하게 자동 조절하기 위해 흘러넘친 배경색은 숨김 */
+	/*사이드바의 높이가 컨텐트의 높이와 동이라하게 자동 조절하기 위해 흘러넘친 배경색은 숨김*/
 	overflow:hidden;
 	margin-bottom:10px;
 }
-.page_nav{
+#page_nav{
 	float:left;
 	width:25%;
 	min-height:530px;
 }
-.page_body{
+#page_body{
 	width:75%;
 	float:left;
 }
-#page-clear{
+.page-clear{
 	clear:both;
 }
-/* 공통 프로필
+/* 공통 프로필 
 ---------------------*/
 .my-photo{
-	object-fit:cover;/* 영역에 맞춤 */
-	/* 정사각형이 아니라 직사각형일 경우 원 안에 보여지게 할 중심 이미지의 위치를 지정 */
+	object-fit:cover;
+	/*정사각형이 아니라 직사각형일 경우 원 안에 보여지게 할 중심 이미지의 위치를 지정*/
 	object-position:top;
 	border-radius:50%;
 }
@@ -224,26 +202,25 @@ table td, table th{
 	width:100%;
 	height:50px;
 	font-size:12pt;
-	background-color:#FCFCFC;
-	border-color:#B7B5B5;
+	background-color:#fcfcfc;
+	border-color:#b7b5b5;
 	border-radius:5px;
 }
 .default-btn{
 	padding:4px 20px;
-	border:1px solid #09AA5C;
+	border:1px solid #09aa5c;
 	border-radius:2px;
-	color:#FFF;
-	background-color:#09AA5C;
+	color:#fff;
+	background-color:#09aa5c;
 	font-weight:bold;
 	cursor:pointer;
 }
 .default-btn:hover{
-	background-color:#FFF;
-	color:#09AA5C;
+	background-color: #FFF;
+	color:#09aa5c;
 	transition:0.2s ease-out;
 	height:30px;
 }
-
 /* 게시판 글상세
 ---------------------*/
 ul.detail-info li{

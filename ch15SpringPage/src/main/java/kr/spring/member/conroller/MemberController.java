@@ -1,10 +1,14 @@
 package kr.spring.member.conroller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import kr.spring.member.service.MemberService;
 import kr.spring.member.vo.MemberVO;
 import kr.spring.util.AuthCheckException;
-
+import kr.spring.util.CaptchaUtil;
+import kr.spring.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -147,5 +152,132 @@ public class MemberController {
 		
 		return "myPage";
 	}
+	/*=============================
+	 * 회원정보 수정
+	 ============================*/
+	//수정 폼 호출
+	@GetMapping("/member/update")
+	public String formUpdate(HttpSession session,Model model) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		MemberVO memberVO = memberService.selectMember(user.getMem_num());
+		
+		model.addAttribute("memberVO",memberVO);
+		
+		return "memberModify";
+	}
+	//수정폼에서 전송된 데이터 처리
+	@PostMapping("/member/update")
+	public String submitUpdate(@Valid MemberVO memberVO,BindingResult result,HttpSession session) {
+		log.debug("<<회원정보 수정 >> : "+ memberVO);
+		
+		//유효성 체크 결과 오류가 있으면 폼 호출
+		if(result.hasErrors()) {
+			return "memberModify";
+		}
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		memberVO.setMem_num(user.getMem_num());
+		
+		//회원정보 수정
+		memberService.updateMember(memberVO);
+		//세선에 저장된 정보 변경
+		user.setNick_name(memberVO.getNick_name());
+		user.setEmail(memberVO.getEmail());
+		
+		return "redirect:/member/myPage";
+	}
 	
+	/*=============================
+	 * 프로필 사진 출력
+	 ============================*/
+	//프로필 사진 출력(로그인 전용)
+	@GetMapping("/member/photoView")
+	public String getProfile(HttpSession session,HttpServletRequest request,Model model) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		log.debug("<<프로필 사진 출력>> : " + user);
+		if(user==null) {//로그인X
+			getBasicProfileImage(request, model);//기본이미지 불러오기
+		}else {//로그인O
+			MemberVO memberVO = memberService.selectMember(user.getMem_num());//저장된 이미지를 불러옴
+			
+			viewProfile(memberVO, request, model);
+		}
+		return "imageView";
+	}
+	//프로필 사진 처리를 위한 공통 코드
+	public void viewProfile(MemberVO memberVO,HttpServletRequest request,Model model) {
+		if(memberVO == null || memberVO.getPhoto_name() == null) {
+			//DB에 저장된 프로필 이미지가 없기 때문에 기본 이미지 로딩
+			getBasicProfileImage(request, model);
+		}else {
+			//업로드한 프로필 이미지 읽기
+			model.addAttribute("imageFile",memberVO.getPhoto());
+			model.addAttribute("filename","face.png");
+		}
+		
+	}
+	//기본 이미지 읽기
+	public void getBasicProfileImage(HttpServletRequest request,Model model) {
+		
+		byte[] readbyte = FileUtil.getBytes(request.getServletContext().getRealPath("/image_bundle/face.png"));
+		
+		model.addAttribute("imageFile",readbyte);
+		model.addAttribute("filename","face.png");
+		
+	}
+	
+	/*=============================
+	 * 비밀번호 변경
+	 ============================*/
+	//비밀번호 변경 폼 호출
+	@GetMapping("/member/changePassword")
+	public String formChangePassword() {
+		return "memberChangePassword";
+	}
+	//비밀번호 변경 폼에서 전송된 데이터 처리
+	
+	
+	/*=============================
+	 * 네이버 캡챠 API 사용
+	 ============================*/
+	//캡챠 이미지 호출
+	@GetMapping("/member/getCaptcha")
+	public String getCaptcha(Model model,HttpSession session) {
+		String clientId = "j_ESN5fWGldw8kKhuSyo";
+		String clientSecret = "rCzbCfedgU";
+		
+		String code = "0"; //키 발급시 0, 캡챠 이미지 비교시 1로 세팅
+		String key_apiURL = "https://openapi.naver.com/v1/captcha/nkey?code=" + code;
+		
+		Map<String, String> requestHeaders = new HashMap<String, String>();
+		
+		requestHeaders.put("X-Naver-Client-Id", clientId);
+		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+		String responseBody = CaptchaUtil.get(key_apiURL, requestHeaders);
+		
+		log.debug("<<responseBody>> : " + responseBody);
+		
+		JSONObject jObject = new JSONObject(responseBody);
+		try {
+			//https://openapi.naver.com/v1/captcha/nkey 호출로 받은 key값
+			String key = jObject.getString("key");
+			session.setAttribute("captcha_key", key);
+			
+			String apiURL = "https://openapi.naver.com/v1/captcha/ncaptcha.bin?key=" + key;
+			
+			Map<String, String> requestHeaders2 = new HashMap<String, String>();
+			
+			requestHeaders.put("X-Naver-Client-Id", clientId);
+			requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+			
+			byte[] response_byte = CaptchaUtil.getCaptchaImage(apiURL, requestHeaders2);
+			
+			model.addAttribute("imageFile", response_byte);
+			model.addAttribute("filename", "captcha.jpg");
+		}catch(Exception e) {
+			log.error(e.toString());
+		}
+		return "imageView";
+	}
+	
+
 }

@@ -9,19 +9,23 @@
 		</li>
 		<li>
 			<div id="photo_choice" style="display:none;">
-				<input type="file" id="upload" accept="image/gif,image/png,image/jpeg">
-				<input type="button" value="전송" id="photo_submit">
-				<input type="button" value="취소" id="photo_reset">
+				<input type="file" id="upload" accept="image/gif,image/png,image/jpeg"><br>
+				<input type="button" value="전송" id="photo_submit"> 
+				<input type="button" value="취소" id="photo_reset"> 
 			</div>
 		</li>
 	</ul>
 	<ul>
 		<li>
-			<input type="button" class="menu-btn" value="비밀번호변경" onclick="location.href='changePassword'">
+			<input type="button" class="menu-btn" value="비밀번호변경" 
+			onclick="location.href='changePassword'">
 		</li>
 		<li>
-			<input type="button" class="menu-btn" value="회원탈퇴" onclick="location.href='delete'">
+			<input type="button" class="menu-btn" value="회원탈퇴" 
+			onclick="location.href='delete'">
 		</li>
 	</ul>
 </div>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/member.profile.js"></script>
 <!-- MyPage 메뉴 끝 -->
