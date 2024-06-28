@@ -234,24 +234,73 @@ public class MemberController {
 		return "memberChangePassword";
 	}
 	//비밀번호 변경 폼에서 전송된 데이터 처리
-	
-	
+	@PostMapping("/member/changePassword")
+	public String submitChangePassword(MemberVO memberVO,BindingResult result,HttpSession session,Model model,
+											HttpServletRequest request) {
+		log.debug("<<비밀번호 변경 처리>> : " + memberVO);
+		//유효성 체크 결과 오류가 있으면 폼 호출
+		if(result.hasFieldErrors("now_passwd")||result.hasFieldErrors("passwd")){
+			return formChangePassword();
+		}
+		//=========캡챠 문자 체크 시작 ===========//
+		String code = "1";//키 발급 0, 캡챠 이미지 비교시 1로 세팅
+		//캡챠 키 발급시 받은 키값
+		String key = (String)session.getAttribute("captcha_key");
+		//사용자가 입력한 캡챠 이미지 글자값
+		String value = memberVO.getCaptcha_chars();
+		String apiURL = "https://openapi.naver.com/v1/captcha/nkey?code=" + code + "&key=" + key + "&value=" + value;
+		
+		Map<String, String> requestHeaders = new HashMap<String, String>();
+		
+		requestHeaders.put("X-Naver-Client-Id", "j_ESN5fWGldw8kKhuSyo");
+		requestHeaders.put("X-Naver-Client-Secret", "rCzbCfedgU");
+		
+		String responseBody = CaptchaUtil.get(apiURL, requestHeaders);
+		
+		log.debug("<<캡챠 결과>> : " + responseBody);
+		
+		//변환 작업
+		JSONObject jObject = new JSONObject(responseBody);
+		boolean captcha_result = jObject.getBoolean("result");
+		if(!captcha_result) {
+			result.rejectValue("captcha_chars", "invalidCaptcha");
+			return formChangePassword();
+		}
+		//=========캡챠 문자 체크 끝 ============//
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		memberVO.setMem_num(user.getMem_num());
+		
+		MemberVO db_member = memberService.selectMember(memberVO.getMem_num());
+		
+		//폼에서 전송한 현재 비밀번호와 DB에서 읽어온 비밀번호 일치 여부 체크
+		if(!db_member.getPasswd().equals(memberVO.getNow_passwd())) {
+			result.rejectValue("now_passwd", "invalidPassword");
+			return formChangePassword();
+		}
+		//비밀번호 수정
+		memberService.updatePassword(memberVO);
+		//설정되어 있는 자동로그인 기능 해제(모든 브라우저에 설정된 자동로그인 해제)
+		memberService.deleteAu_id(memberVO.getMem_num());
+		//View에 표시할 메시지
+		model.addAttribute("message","비밀번호 변경 완료(*재접속시 설정되어 있는 자동로그인 기능 해제");
+		model.addAttribute("url",request.getContextPath()+"/member/myPage");
+		
+		return "common/resultView";
+	}
 	/*=============================
 	 * 네이버 캡챠 API 사용
 	 ============================*/
 	//캡챠 이미지 호출
 	@GetMapping("/member/getCaptcha")
 	public String getCaptcha(Model model,HttpSession session) {
-		String clientId = "j_ESN5fWGldw8kKhuSyo";
-		String clientSecret = "rCzbCfedgU";
 		
 		String code = "0"; //키 발급시 0, 캡챠 이미지 비교시 1로 세팅
 		String key_apiURL = "https://openapi.naver.com/v1/captcha/nkey?code=" + code;
 		
 		Map<String, String> requestHeaders = new HashMap<String, String>();
 		
-		requestHeaders.put("X-Naver-Client-Id", clientId);
-		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+		requestHeaders.put("X-Naver-Client-Id", "j_ESN5fWGldw8kKhuSyo");
+		requestHeaders.put("X-Naver-Client-Secret", "rCzbCfedgU");
 		String responseBody = CaptchaUtil.get(key_apiURL, requestHeaders);
 		
 		log.debug("<<responseBody>> : " + responseBody);
@@ -264,12 +313,7 @@ public class MemberController {
 			
 			String apiURL = "https://openapi.naver.com/v1/captcha/ncaptcha.bin?key=" + key;
 			
-			Map<String, String> requestHeaders2 = new HashMap<String, String>();
-			
-			requestHeaders.put("X-Naver-Client-Id", clientId);
-			requestHeaders.put("X-Naver-Client-Secret", clientSecret);
-			
-			byte[] response_byte = CaptchaUtil.getCaptchaImage(apiURL, requestHeaders2);
+			byte[] response_byte = CaptchaUtil.getCaptchaImage(apiURL, requestHeaders);
 			
 			model.addAttribute("imageFile", response_byte);
 			model.addAttribute("filename", "captcha.jpg");

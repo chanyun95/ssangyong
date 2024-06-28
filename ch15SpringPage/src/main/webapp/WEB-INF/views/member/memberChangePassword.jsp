@@ -56,5 +56,6 @@
 			<input type="button" value="MY페이지" onclick="location.href='myPage'">
 		</div>
 	</form:form>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/member.password.js"></script>
 </div>
 <!-- 비밀번호 변경 끝 -->

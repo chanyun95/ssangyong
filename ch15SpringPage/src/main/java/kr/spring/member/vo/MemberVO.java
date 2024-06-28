@@ -51,7 +51,7 @@ public class MemberVO {
 	private String now_passwd;
 	
 	//비밀번호 변경시에만 조건체크
-	@Pattern(regexp="^[A-Za-z0-9]$")
+	@Pattern(regexp="^[A-Za-z0-9]+$")
 	private String captcha_chars;
 	
 	

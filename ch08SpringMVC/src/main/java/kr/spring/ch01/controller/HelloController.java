@@ -15,7 +15,7 @@ public class HelloController {
 		mav.setViewName("hello");// viewResolver에 의해 /WEB-INF/views/hello.jsp  hello 뒤에 .jsp X
 		//뷰에서 사용할 데이터 세팅
 		mav.addObject("greeting","안녕하세요!");
-		
+
 		return mav;
 	}
 }
