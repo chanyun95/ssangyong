@@ -38,4 +38,5 @@
 			<input type="button" value="목록" class="default-btn" onclick="location.href='list'">
 		</div>
 	</form:form>
+</div>
 <!-- 게시판 글 작성 끝 -->

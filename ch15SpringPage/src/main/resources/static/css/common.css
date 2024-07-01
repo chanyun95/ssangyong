@@ -64,6 +64,9 @@ a:hover{
 .align-right{
 	text-align:right;
 }
+.align-left{
+	text-align:left;
+}
 /* 상단 메뉴
 ---------------------*/
 div#main_menu li{
@@ -183,15 +186,38 @@ ul.search li select{
 	width:700px;
 	margin:10px auto;
 }
-table{
+/* 공통 테이블
+---------------------*/
+table.basic-table{
 	width:100%;
 	border:1px solid #000;
 	border-collapse:collapse;
 	margin-top:5px;
 }
-table td, table th{
+table.basic-table td, table.basic-table th{
 	border:1px solid #000;
 	padding:5px;
+}
+table.striped-table{
+	width:100%;
+	border:1px solid #FFF;
+	border-collapse:collapse;
+	font-size:15pt;
+	margin:7px 0;
+}
+table.striped-table td, table.striped-table th{
+	padding:.7em .5em;
+	vertical-align:middle;
+}
+table.striped-table th{
+	font-weight:bold;
+	background:#E1E1E1;
+}
+table.striped-table td{
+	border-bottom:1px solid rgba(0,0,0,.1);
+}
+table.striped-table tr:nth-child(odd){/*홀수행만*/
+	background-color:rgb(250,250,247);
 }
 /* 공통 버튼
 ---------------------*/

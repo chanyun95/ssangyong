@@ -19,13 +19,12 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public List<BoardVO> selectList(Map<String, Object> map) {
-		return null;
+		return boardMapper.selectList(map);
 	}
 
 	@Override
 	public Integer selectRowCount(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardMapper.selectRowCount(map);
 	}
 
 	@Override
@@ -35,20 +34,17 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public BoardVO selectBoard(Long board_num) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardMapper.selectBoard(board_num);
 	}
 
 	@Override
 	public void updateHit(Long board_num) {
-		// TODO Auto-generated method stub
-		
+		boardMapper.updateHit(board_num);
 	}
 
 	@Override
 	public void updateBoard(BoardVO board) {
-		// TODO Auto-generated method stub
-		
+		boardMapper.updateBoard(board);
 	}
 
 	@Override
@@ -59,8 +55,7 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public void deleteFile(Long board_num) {
-		// TODO Auto-generated method stub
-		
+		boardMapper.deleteFile(board_num);
 	}
 	
 }

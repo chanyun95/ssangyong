@@ -15,7 +15,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class BoardVO {
-	private int board_num;			//게시판 번호
+	private long board_num;			//게시판 번호
 	@NotBlank
 	private String category;		//카테고리
 	@NotBlank

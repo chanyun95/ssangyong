@@ -30,7 +30,7 @@ create table spboard(
 	category char(1) not null,
 	title varchar2(90) not null,
 	content clob not null,
-	hit number(8) default 0 not null,
+	hit number(8)default 0 not null,
 	reg_date date default sysdate not null,
 	modify_date date,
 	filename varchar2(400),
