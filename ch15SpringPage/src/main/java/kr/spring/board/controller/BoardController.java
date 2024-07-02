@@ -125,8 +125,8 @@ public class BoardController {
 		
 		//제목에 태그를 허용하지 않음
 		board.setTitle(StringUtil.useNoHTML(board.getTitle()));
-		//내용에 태그를 허용하지 않으면서 줄바꿈 처리
-		board.setContent(StringUtil.useBrNoHTML(board.getContent()));
+		//내용에 태그를 허용하지 않으면서 줄바꿈 처리(CKEditor 사용시 주석 처리)
+		//board.setContent(StringUtil.useBrNoHTML(board.getContent()));
 		
 		return new ModelAndView("boardView","board",board);
 	}
@@ -171,8 +171,35 @@ public class BoardController {
 		BoardVO db_board = boardService.selectBoard(boardVO.getBoard_num());
 		//파일명 셋팅(FileUtil.createFile에서 파일이 없으면 null 처리)
 		boardVO.setFilename(FileUtil.createFile(request, boardVO.getUpload()));
+		//ip셋팅
+		boardVO.setIp(request.getRemoteAddr());
+		//글 수정
+		boardService.updateBoard(boardVO);
+		
+		if(boardVO.getUpload()!=null && boardVO.getUpload().isEmpty()) {
+			//수정 전 파일 삭제처리
+			FileUtil.removeFile(request, db_board.getFilename());
+		}
+		//View에 표시할 메시지
+		model.addAttribute("message","글 수정 완료");
+		model.addAttribute("url",request.getContextPath()+"/board/detail?board_num="+boardVO.getBoard_num());
 		
 		return "/common/resultAlert";
 	}
-	
+	/*===================
+		게시판 글 삭제
+	===================*/
+	@GetMapping("/board/delete")
+	public String submitDelete(long board_num,HttpServletRequest request) {
+		log.debug("<<게시판 글 삭제 - board_num>> : "+board_num);
+		//DB에 저장된 파일 정보 구하기
+		BoardVO db_board = boardService.selectBoard(board_num);
+		//글 삭제
+		boardService.deleteBoard(board_num);
+		if(db_board.getFilename()!=null) {
+			//파일 삭제
+			FileUtil.removeFile(request, db_board.getFilename());
+		}
+		return "redirect:/board/list";
+	}
 }
