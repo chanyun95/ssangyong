@@ -12,6 +12,7 @@ import kr.spring.interceptor.LoginCheckInterceptor;
 import kr.spring.interceptor.WriterCheckInterceptor;
 
 //자바코드 기반 설정 클래스
+
 @Configuration
 public class AppConfig implements WebMvcConfigurer{
 	private LoginCheckInterceptor loginCheck;
@@ -66,6 +67,7 @@ public class AppConfig implements WebMvcConfigurer{
 		tilesViewResolver.setViewClass(TilesView.class);
 		return tilesViewResolver;
 	}
+	
 }
 
 

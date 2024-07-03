@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 /* 게시판 목록
 ---------------------*/
 form#search_form #order{
@@ -7,7 +6,7 @@ form#search_form #order{
 }
 /* 게시판 폼
 ---------------------*/
-/* CKEditor 사용시 등록,수정폼 */
+/*CKEditor 사용시 등록,수정폼*/
 form#board_register, form#board_modify{
 	padding:0 0 10px 0;
 	width:800px;
@@ -16,14 +15,13 @@ form#board_register ul, form#board_modify ul{
 	padding:20px;
 }
 form#board_register input[type="text"], 
-		form#board_modify input[type="text"]{
+                form#board_modify input[type="text"]{
 	width:759px;
-	margin-bottom:10px;
+	margin-bottom: 10px;                
 }
-.ck-editor__editable_inline{/* CKEditor 전용 */
+.ck-editor__editable_inline{/*CKEditor 전용*/
 	min-height:250px;
 }
-
 /* 게시판 글상세
 ---------------------*/
 ul.detail-info li{
@@ -94,7 +92,26 @@ div#re_second, div#mre_second{
 	margin-bottom:10px;
 }
 div#loading{
-	text-align:center;
+	width:100%;
+	height:50px;
+	display:flex;
+	justify-content:center;/*가로 정렬*/
+	align-items:center;/*세로 정렬*/
+}
+.modify-btn,.delete-btn{
+	padding:4px 20px;
+	border:1px solid #f0f2f1;
+	border-radius:20px;
+	color:#6e6e6e;
+	background-color:#f0f2f1;
+	font-weight:bold;
+	cursor:pointer;
+}
+.modify-btn:hover,.delete-btn:hover{
+	background-color:#e1e3e2;
+	color:#000000;
+	transition:0.2s ease-out;
+	height:30px;
 }
 div.paging-button{
 	text-align:right;

@@ -49,6 +49,20 @@ create table spboard_fav(
 	constraint fav_spmember_fk2 foreign key (mem_num) references spmember(mem_num)
 );
 
+--댓글
+create table spboard_reply(
+	re_num number not null,
+	re_content varchar2(900) not null,
+	re_date date default sysdate not null,
+	re_mdate date,
+	re_ip varchar2(40) not null,
+	board_num number not null,
+	mem_num number not null,
+	constraint spboard_reply_pk primary key (re_num),
+	constraint reply_spboard_fk1 foreign key (board_num) references spboard(board_num),
+	constraint reply_spmember_fk2 foreign key (mem_num) references spmember(mem_num)
+);
+create sequence spreply_seq;
 
 
 

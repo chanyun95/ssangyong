@@ -1,6 +1,8 @@
 package kr.spring.board.controller;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.spring.board.service.BoardService;
 import kr.spring.board.vo.BoardFavVO;
+import kr.spring.board.vo.BoardReplyVO;
 import kr.spring.board.vo.BoardVO;
 import kr.spring.member.vo.MemberVO;
 import kr.spring.util.FileUtil;
+import kr.spring.util.PagingUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -106,6 +110,78 @@ public class BoardAjaxController {
 				FileUtil.removeFile(request, db_board.getFilename());
 				mapJson.put("result", "success");
 			}
+		}
+		return mapJson;
+	}
+	/*===================
+		댓글 등록
+	===================*/
+	@PostMapping("/board/writeReply")
+	@ResponseBody
+	public Map<String, String> writeReply(BoardReplyVO boardReplyVO,HttpSession session,
+																HttpServletRequest request){
+		log.debug("<<댓글 등록>> : " + boardReplyVO);
+		
+		Map<String, String> mapJson = new HashMap<String, String>();
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) {
+			//로그인X
+			mapJson.put("result", "logout");
+		}else {
+			//로그인O
+			boardReplyVO.setMem_num(user.getMem_num());
+			//ip등록
+			boardReplyVO.setRe_ip(request.getRemoteAddr());
+			//댓글 등록
+			boardService.insertReply(boardReplyVO);
+			mapJson.put("result", "success");
+		}
+		
+		return mapJson;
+	}
+	/*===================
+		댓글 목록
+	===================*/
+	@GetMapping("/board/listReply")
+	@ResponseBody
+	public Map<String, Object> getList(int board_num,int pageNum,int rowCount,HttpSession session){
+		
+		log.debug("<<댓글 목록 - board_num>> : " + board_num);
+		log.debug("<<댓글 목록 - pageNum>> : " + pageNum);
+		log.debug("<<댓글 목록 - rowCount>> : " + rowCount);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("board_num", board_num);
+		//총글의 개수
+		int count = boardService.selectRowCountReply(map);
+		//페이지 처리
+		PagingUtil page = new PagingUtil(pageNum,count,rowCount);
+		
+		map.put("start", page.getStartRow());
+		map.put("end", page.getEndRow());
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user != null) {
+			map.put("mem_num", user.getMem_num());
+		}else {
+			map.put("mem_num", 0);
+		}
+		
+		List<BoardReplyVO> list = null;
+		if(count > 0) {
+			list = boardService.selectListReply(map);
+		}else {
+			list = Collections.emptyList();
+		}
+		
+		Map<String, Object> mapJson = new HashMap<String, Object>();
+		
+		mapJson.put("count", count);
+		mapJson.put("list", list);
+		if(user!=null) {
+			mapJson.put("user_num", user.getMem_num());	
 		}
 		return mapJson;
 	}

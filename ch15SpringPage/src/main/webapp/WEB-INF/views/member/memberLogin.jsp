@@ -26,10 +26,6 @@
 			<form:button class="login-btn">로그인</form:button>
 		</div>
 	</form:form>
-	
-	<!-- 추가된 카카오 로그인 폼 -->
-	<jsp:include page="/WEB-INF/views/member/kakaoLogin.jsp" />
-	
 	<p class="align-center">
 		<input type="button" value="홈으로" class="default-btn" onclick="location.href='${pageContext.request.contextPath}/main/main'">
 		<input type="button" value="비밀번호 찾기">
