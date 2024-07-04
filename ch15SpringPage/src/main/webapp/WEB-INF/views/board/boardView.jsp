@@ -39,6 +39,7 @@
 		<img id="output_fav" data-num="${board.board_num}" src="${pageContext.request.contextPath}/images/fav01.gif">
 		<span id="output_fcount"></span>
 		<!-- 댓글수 -->
+		<span id="output_rcount"></span>
 	</div>
 	<hr size="1" width="100%" noshade="noshade">
 	<div class="align-right">

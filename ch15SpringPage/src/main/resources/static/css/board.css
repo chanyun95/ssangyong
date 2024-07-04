@@ -123,6 +123,9 @@ form#mre_form{
 	border:none;
 	margin:5px;
 }
+div.item{
+	margin-top:10px;
+}
 /* 게시판 글 수정
 ---------------------*/
 #file_detail{
