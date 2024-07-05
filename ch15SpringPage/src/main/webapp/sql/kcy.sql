@@ -1,44 +1,44 @@
 --회원 테이블
 create table member(
-	mem_num number not null,
-	mem_id varchar2(12) not null,
-	mem_auth number(1) default 2 not null,
-	constraint member_pk primary key (mem_num)
-);
---회원 상세 테이블
-create table member_detail(
-	mem_num number not null,
-	mem_passwd varchar2(20) not null,
-	mem_name varchar2(30) not null,
-	mem_birth date not null,
-	mem_email varchar2(50) not null,
-	mem_phone varchar2(11) not null,
-	mem_zipcode varchar2(5) not null,
-	mem_address1 varchar2(90) not null,
-	mem_address2 varchar2(90) not null,
-	mem_reg_date date default sysdate not null,
-	mem_modify_date date,
-	constraint member_detail_pk primary key (mem_num),
-	constraint member_detail_fk foreign key (mem_num) references member (mem_num)
+	mem_num NUMBER NOT NULL,
+	mem_id VARCHAR2(12) NOT NULL,	--아이디
+	mem_name VARCHAR2(30) NOT NULL,	--이름
+	mem_photo VARCHAR2(400),	-- 프로필 사진(의사회원은 not null)
+	mem_auth NUMBER(1) DEFAULT 2 NOT NULL,	--권한등급
+	CONSTRAINT member_pk PRIMARY KEY (mem_num)
 );
 create sequence member_seq;
 
---의사회원 테이블
-create table dmember(
-	dmem_num number not null,
-	dmem_id varchar2(12) not null,
-	dmem_passwd varchar2(20) not null,
-	dmem_name varchar2(30) not null,
-	dmem_email varchar2(50) not null,
-	dmem_reg_date date default sysdate not null,
-	dmem_depart varchar2(15) not null, --진료과
-	dmem_hname varchar2(30) not null, --병원 이름
-	dmem_phone varchar2(11) not null, -- 병원 전화번호
-	dmem_photo varchar2(400) not null, --의사 프로필 사진
-	dmem_zipcode varchar2(5) not null, --병원 주소 우편번호
-	dmem_address1 varchar2(90) not null, --병원 주소
-	dmem_address2 varchar2(90) not null, --병원 상세주소
-	dmem_license varchar2(400) not null, --의사 면허증
-	constraint dmember_pk primary key (dmem_num)
+--일반회원 상세 테이블
+create table member_detail(
+	mem_num NUMBER NOT NULL,
+	au_id VARCHAR2(36) UNIQUE,	--자동로그인에 식별되는 식별값
+	mem_passwd VARCHAR2(20) NOT NULL,
+	mem_birth DATE NOT NULL,
+	mem_email VARCHAR2(50) NOT NULL,
+	mem_phone VARCHAR2(11) NOT NULL,
+	mem_zipcode VARCHAR2(5) NOT NULL,
+	mem_address1 VARCHAR2(90) NOT NULL,
+	mem_address2 VARCHAR2(90) NOT NULL,
+	mem_reg DATE DEFAULT sysdate NOT NULL,
+	mem_modify DATE,
+	CONSTRAINT member_detail_pk PRIMARY KEY (mem_num),
+	CONSTRAINT member_detail_fk FOREIGN KEY (mem_num) REFERENCES member (mem_num)
+);
+create sequence member_detail_seq;
+
+--의사회원 상세 테이블
+create table doctor_detail(
+	doc_num NUMBER not null,
+	hos_num NUMBER not null,
+	doc_passwd VARCHAR2(20) not null,
+	doc_email VARCHAR2(50) not null,
+	doc_reg DATE default sysdate not null,
+	doc_license VARCHAR2(400) not null,	--의사 면허증
+	doc_history CLOB,	--연혁
+	doc_off NUMBER(1),	--휴무일
+	CONSTRAINT doctor_detail_pk PRIMARY KEY (doc_num),
+	CONSTRAINT doctor_detail_fk1 FOREIGN KEY (doc_num) REFERENCES member(mem_num),
+	CONSTRAINT doctor_detail_fk2 FOREIGN KEY (hos_num) REFERENCES hospital(hos_num)
 ); 
-create sequence dmember_seq;
+create sequence doctor_detail_seq;

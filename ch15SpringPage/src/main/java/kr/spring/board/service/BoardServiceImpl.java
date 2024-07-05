@@ -16,7 +16,6 @@ import kr.spring.board.vo.BoardVO;
 @Service
 @Transactional
 public class BoardServiceImpl implements BoardService{
-	
 	@Autowired
 	BoardMapper boardMapper;
 	
@@ -52,10 +51,9 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public void deleteBoard(Long board_num) {
+		//답글 삭제
 		//댓글 좋아요 삭제
 		boardMapper.deleteReFavByBoardNum(board_num);
-		//답글 삭제
-		boardMapper.selectReNumsByBoard_num(board_num);
 		//댓글 삭제
 		boardMapper.deleteReplyByBoardNum(board_num);
 		//부모글 좋아요 삭제
@@ -116,7 +114,7 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public void deleteReply(Long re_num) {
-		//답글
+		//답글 
 		
 		//댓글 좋아요
 		boardMapper.deleteReFavByReNum(re_num);
@@ -135,14 +133,15 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public void insertReFav(BoardReFavVO fav) {
-		// TODO Auto-generated method stub
-		
+		boardMapper.insertReFav(fav);
 	}
 
 	@Override
 	public void deleteReFav(BoardReFavVO fav) {
-		// TODO Auto-generated method stub
-		
+		boardMapper.deleteReFav(fav);
 	}
-	
 }
+
+
+
+

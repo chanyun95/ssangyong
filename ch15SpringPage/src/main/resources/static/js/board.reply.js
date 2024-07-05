@@ -31,6 +31,11 @@ $(function(){
 				displayReplyCount(param.count);
 				//댓글 목록 작업
 				$(param.list).each(function(index,item){
+					//댓글 좋아요
+					let fav_cnt = 0;
+					if(item.refav_cnt!=0){
+						fav_cnt = item.refav_cnt;
+					}
 					let output = '<div class="item">';
 					output += '<ul class="detail-info">';
 					output += '<li>';
@@ -52,7 +57,11 @@ $(function(){
 					output += '<div class="sub-item">';
 					output += '<p>'+item.re_content.replace(/\r\n/g,'<br>')+'</p>';
 					//좋아요 시작
-					
+					if(item.click_num==0 || param.user_num!=item.click_num){
+						output += '<img class="output_rfav" src="../images/heart01.png" data-num="'+item.re_num+'"> <span class="output_rfcount">'+fav_cnt+'</span>';
+					}else{
+						output += '<img class="output_rfav" src="../images/heart02.png" data-num="'+item.re_num+'"> <span class="output_rfcount">'+fav_cnt+'</span>';
+					}
 					//좋아요 끝
 					if(param.user_num==item.mem_num){
 						//로그인한 회원번호와 댓글 작성자 회원번호가 일치
@@ -300,8 +309,45 @@ $(function(){
 	===================*/
 	
 	/*===================
+		댓글 좋아요 등록/삭제
+	===================*/
+	$(document).on('click','.output_rfav',function(){
+		let heart = $(this);
+		//서버와 통신
+		$.ajax({
+			url:'writeReFav',
+			type:'post',
+			data:{re_num:heart.attr('data-num')},
+			dataType:'json',
+			success:function(param){
+				if(param.result == 'logout'){
+					alert('로그인 후 좋아요를 눌러주세요.');
+				}else if(param.result == 'success'){
+					displayFav(param,heart);
+				}else{
+					alert('댓글 좋아요 등록/삭제 오류 발생');
+				}
+			},
+			error:function(){
+				alert('네트워크 오류 발생');
+			}
+		});
+	});
+	
+	/*===================
 		댓글 좋아요 표시
 	===================*/
+	function displayFav(param,heart){
+		let output;
+		if(param.status == 'noFav'){
+			output = '../images/heart01.png';
+		}else{
+			output = '../images/heart02.png';
+		}
+		//문서 객체에 추가
+		heart.attr('src',output);
+		heart.parent().find('.output_rfcount').text(param.count);
+	};
 	
 	/*===================
 		답글 등록
