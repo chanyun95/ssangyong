@@ -78,9 +78,7 @@
 		</form>
 	</div>
 	<!-- 댓글 목록 출력 -->
-	<div id="output">
-		
-	</div>
+	<div id="output"></div>
 	<div id="loading" style="display:none;">
 		<img src="${pageContext.request.contextPath}/images/loading.gif" width="30" height="30">
 	</div>

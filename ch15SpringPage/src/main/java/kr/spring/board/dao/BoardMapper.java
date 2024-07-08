@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Update;
 import kr.spring.board.vo.BoardFavVO;
 import kr.spring.board.vo.BoardReFavVO;
 import kr.spring.board.vo.BoardReplyVO;
+import kr.spring.board.vo.BoardResponseVO;
 import kr.spring.board.vo.BoardVO;
 
 @Mapper
@@ -55,9 +56,6 @@ public interface BoardMapper {
 	//부모글 삭제시 댓글이 존재하면 부모글 삭제전 댓글 삭제
 	@Delete("DELETE FROM spboard_reply WHERE board_num=#{board_num}")
 	public void deleteReplyByBoardNum(Long board_num);
-	//부모글 삭제시 댓글의 답글이 존재하면 댓글 번호를 구해서 답글 삭제시 사용
-	@Select("SELECT * FROM spboard_reply WHERE board_num=#{board_num}")
-	public List<Long> selectReNumsByBoard_num(Long board_num);
 	
 	//댓글 좋아요
 	@Select("SELECT * FROM spreply_fav WHERE re_num=#{re_num} AND mem_num=#{mem_num}")
@@ -74,6 +72,17 @@ public interface BoardMapper {
 	public void deleteReFavByBoardNum(Long board_num);
 	
 	//답글
+	public List<BoardResponseVO> selectList(Long re_num);
+	public BoardResponseVO selectResponse(Long te_num);
+	public void insertResponse(BoardResponseVO boardResponse);
+	public void updateResponse(BoardResponseVO boardResponse);
+	public void deleteResponse(Long te_num);
+	//댓글 삭제시 자식글인 답글을 모두 삭제
+	public void deleteResponseByReNum(Long re_num);
+	//부모글 삭제시 댓글의 답글이 존재하면 댓글 번호를 구해서 답글 삭제시 사용
+	@Delete("DELETE FROM spboard_response WHERE re_num IN (SELECT re_num FROM spboard_reply WHERE board_num=#{board_num})")
+	public List<Long> deleteResponseByBoardNum(Long board_num);
+	
 }
 
 
