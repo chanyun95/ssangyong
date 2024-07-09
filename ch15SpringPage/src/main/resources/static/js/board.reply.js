@@ -423,7 +423,7 @@ $(function(){
 					alert('로그인 해야 작성 가능합니다.');
 				}else if(param.result == 'success'){
 					//답글 목록 호출
-					//getListResponse(re_num,resp_form.parents('.item'));
+					getListResponse(re_num,resp_form.parents('.item'));
 					initResponseForm();
 				}else{
 					alert('답글 작성 오류 발생');
@@ -437,11 +437,85 @@ $(function(){
 		//기본 이벤트 제거
 		event.preventDefault();
 	});
+	//답글 노출/숨김 버튼 이벤트 처리
+	$(document).on('click','.rescontent-btn',function(){
+		//data-status의 값이 0이면 답글 미표시 상태 1이면 답글 표시 상태
+		if($(this).attr('data-status')==0){
+			//0이면 답글 미표시 상태이므로 답글이 있으면 답글을 표시
+			//댓글 번호
+			let re_num = $(this).attr('data-num');
+			
+			getListResponse(re_num,$(this).parents('.item'));
+			
+			//현재 선택한 내용의 답글 표시 아이콘 토글 처리
+			$(this).val($(this).val().replace('▲','▼'));
+			$(this).attr('data-status',0);
+			//현재 선택한 내용 삭제
+			$(this).parents('.item').find('.rspitem').remove();
+		}
+	});
 	
 	/*===================
 		답글 목록
 	===================*/
-	
+	function getListResponse(re_num,responseUI){
+		//서버와 통신
+		$.ajax({
+			url:'getListResp',
+			type:'get',
+			data:{re_num:re_num},
+			dataType:'json',
+			success:function(param){
+				//respitem 아이디가 존재하면 답글을 모두 지운 후 다시 처리함
+				responseUI.find('.respitem').remove();
+				
+				let output = '';
+				$(param.list).each(function(index,item){
+					output += '<div class="respitem">';
+					output += '<ul class="detail-info">';
+					output += '<li>';
+					if(item.te_parent_num > 0){
+						if(item.pnick_name){
+							output += '<b> ▶'+item.pnick_name+'</b>';
+						}else{
+							output += '<b> ▶'+item.parent_id+'</b>';
+						}
+					}
+					output += '<img src="../member/viewProfile?mem_num='+item.mem_num+'" width="30" height="30" class="my-photo">';
+					output += '</li>';
+					output += '<li>';
+					if(item.nick_name){
+						output += item.nick_name+'<br>';
+					}else{
+						output += item.id+'<br>';
+					}
+					if(item.te_mdate){
+						output += '<span class="modify-date">최근 수정일 : '+item.te_mdate+'</span>';
+					}else{
+						output += '<span class="modify-date">등록일 : '+item.te_date+'</span>';
+					}
+					output += '</li>';
+					output += '</ul>';
+					output += '<div class="resp-sub-item">';
+					output += '<p>' + item.te_content.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</p>';
+					if(param.user_num == item.mem_num){
+						output += ' <input type="button" data-num="'+item.te_num+'" data-mem="'+item.mem_num+'" value="수정" class="resp-modify-btn">';
+						output += ' <input type="button" data-num="'+item.te_num+'" data-rnum="'+item.re_num+'" data-mem="'+item.mem_num+'" value="삭제" class="resp-delete-btn">';
+					}
+					if(param.user_num){
+						output += ' <input type="button" data-num="'+item.re_num+'" data-parent="'+item.te_num+'" data-depth="'+(item.te_depth+1)+'" value="답글 작성" class="response2-btn">';
+					}
+					output += '</div>';
+					output += '</div>';
+				});
+				//문서 객체에 추가
+				responseUI.append(output);
+			},
+			error:function(){
+				alert('네트워크 오류 발생');
+			}
+		});
+	}
 	/*===================
 		답글 수정
 	===================*/

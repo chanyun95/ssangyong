@@ -321,5 +321,24 @@ public class BoardAjaxController {
 		}
 		return mapJson;
 	}
+	/*===================
+		답글 목록
+	===================*/
+	@GetMapping("/board/getListResp")
+	@ResponseBody
+	public Map<String, Object> getListResp(long re_num,HttpSession session){
+		log.debug("<<답글 목록 - re_num>>" + re_num);
+		
+		List<BoardResponseVO> list = boardService.selectListResponse(re_num);
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		Map<String, Object> mapJson = new HashMap<String, Object>();
+		mapJson.put("list", list);
+		if(user!=null) {
+			mapJson.put("user_num", user.getMem_num());
+		}
+		
+		return mapJson;
+	}
+	
 	
 }
