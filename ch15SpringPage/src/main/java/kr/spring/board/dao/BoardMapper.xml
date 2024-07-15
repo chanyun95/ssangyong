@@ -176,6 +176,15 @@
 		WHERE r.re_num=#{re_num} 
 		START WITH r.te_depth=0 CONNECT BY PRIOR r.te_num=r.te_parent_num ORDER SIBLINGS BY r.te_num DESC
 	</select>
+	<!-- 답글 삭제 -->
+	<delete id="deleteResponse" parameterType="long">
+		DELETE FROM spboard_response WHERE te_num IN (
+			SELECT te_num FROM spboard_response 
+			START WITH te_num=#{te_num} 
+			CONNECT BY PRIOR te_num = te_parent_num
+		)
+		
+	</delete>
  </mapper>
 
 

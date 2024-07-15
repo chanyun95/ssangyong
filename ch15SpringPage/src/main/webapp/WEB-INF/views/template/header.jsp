@@ -10,6 +10,11 @@
 		<a href="${pageContext.request.contextPath}/member/myPage">MY페이지</a>
 		<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
 	</c:if>
+	<c:if test="${userId != null}">
+		<form name="Logout" action="http://localhost:8000/logout">
+			<input type="submit" value="로그아웃">
+		</form>
+	</c:if>
 	<c:if test="${empty user}">
 		<a href="${pageContext.request.contextPath}/member/registerUser">회원가입</a>
 		<a href="${pageContext.request.contextPath}/member/login">로그인</a>

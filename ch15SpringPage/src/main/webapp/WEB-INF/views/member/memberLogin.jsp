@@ -30,5 +30,11 @@
 		<input type="button" value="홈으로" class="default-btn" onclick="location.href='${pageContext.request.contextPath}/main/main'">
 		<input type="button" value="비밀번호 찾기">
 	</p>
+	<hr size="1" width="90%" noshade="noshade">
+	<c:if test="${userId == null}">
+		<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&amp;client_id=c37546ec572f00c776f1b466369745f3&amp;redirect_uri=http://localhost:8000/member/login">
+			<img src="../images/kakao_login_medium_narrow.png">
+		</a>
+	</c:if>
 </div>
 <!-- 회원로그인 끝 -->

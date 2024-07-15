@@ -40,23 +40,6 @@ ul.detail-info li:last-child{
 .detail-img{
 	max-width:500px;
 }
-ul.detail-sub{
-	margin:0;
-	padding:0;
-}
-ul.detail-sub li{
-	display:inline-block;
-	width:49%;
-	height:50px;
-	vertical-align:middle;
-}
-ul.detail-sub li:first-child img{
-	vertical-align:middle;
-}
-ul.detail-sub li:last-child{
-	text-align:right;
-	line-height:250%;
-}
 .detail-content img{
 	max-width:940px;
 }
@@ -105,7 +88,7 @@ div#resp_first{
 	float:left;
 	width:70%;
 	padding-left:15px;
-	margin-bottom:10px
+	margin-bottom:10px;
 }
 div#resp_second{
 	float:left;
@@ -119,7 +102,9 @@ div#loading{
 	justify-content:center;/*가로 정렬*/
 	align-items:center;/*세로 정렬*/
 }
-.modify-btn,.delete-btn,.resp-modify-btn,.resp-delete-btn,.response-btn,.response2-btn,.paging-button input{
+.modify-btn,.delete-btn,.resp-modify-btn,.resp-delete-btn,
+                  .response-btn,.response2-btn,
+                  .paging-button input{
 	padding:4px 20px;
 	border:1px solid #f0f2f1;
 	border-radius:20px;
@@ -128,8 +113,10 @@ div#loading{
 	font-weight:bold;
 	cursor:pointer;
 }
-.modify-btn:hover,.delete-btn:hover,.resp-modify-btn:hover,.resp-delete-btn:hover,
-						.response-btn:hover,.response2-btn:hover,.paging-button input:hover{
+.modify-btn:hover,.delete-btn:hover,.resp-modify-btn:hover,
+                  .resp-delete-btn:hover,
+                  .response-btn:hover,.response2-btn:hover,
+                  .paging-button input:hover{
 	background-color:#e1e3e2;
 	color:#000000;
 	transition:0.2s ease-out;
@@ -141,6 +128,7 @@ div#loading{
 	padding:4px 20px;
 	border-radius:20px;
 	color:#6e6e6e;
+	border: 1px solid #f0f2f1;
 	background-color:#f0f2f1;
 	font-weight:bold;
 	cursor:pointer;
@@ -179,11 +167,13 @@ div.respitem{
 	margin-top:20px;
 	padding-left:50px;
 }
-.my-photo{
-	margin-right:15px;
-}
 /* 게시판 글 수정
 ---------------------*/
 #file_detail{
 	margin:5px 0 0 130px;
 }
+
+
+
+
+

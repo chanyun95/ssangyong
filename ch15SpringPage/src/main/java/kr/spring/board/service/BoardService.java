@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Select;
 
 import kr.spring.board.vo.BoardFavVO;
 import kr.spring.board.vo.BoardReFavVO;
@@ -48,6 +49,8 @@ public interface BoardService {
 	public void updateResponse(BoardResponseVO boardResponse);
 	public void deleteResponse(Long te_num);
 
+	//답글의 개수 구하기
+	public Integer selectResponseCount(Long re_num);
 }
 
 

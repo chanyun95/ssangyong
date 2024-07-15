@@ -62,27 +62,32 @@ public interface BoardMapper {
 	public BoardReFavVO selectReFav(BoardReFavVO fav);
 	@Select("SELECT COUNT(*) FROM spreply_fav WHERE re_num=#{re_num}")
 	public Integer selectReFavCount(Long re_num);
-	@Insert("INSERT INTO spreply_fav (re_num,mem_num) VALUES(#{re_num},#{mem_num})")
+	@Insert("INSERT INTO spreply_fav (re_num,mem_num) VALUES (#{re_num},#{mem_num})")
 	public void insertReFav(BoardReFavVO fav);
 	@Delete("DELETE FROM spreply_fav WHERE re_num=#{re_num} AND mem_num=#{mem_num}")
 	public void deleteReFav(BoardReFavVO fav);
 	@Delete("DELETE FROM spreply_fav WHERE re_num=#{re_num}")
 	public void deleteReFavByReNum(Long re_num);
-	@Delete("DELETE FROM spreply_fav WHERE re_num IN (SELECT re_num FROM spboard_reply WHERE board_num=#{board_num}")
+	@Delete("DELETE FROM spreply_fav WHERE re_num IN (SELECT re_num FROM spboard_reply WHERE board_num=#{board_num})")
 	public void deleteReFavByBoardNum(Long board_num);
 	
 	//답글
 	public List<BoardResponseVO> selectListResponse(Long re_num);
+	@Select("SELECT * FROM spboard_response WHERE te_num=#{te_num}")
 	public BoardResponseVO selectResponse(Long te_num);
 	public void insertResponse(BoardResponseVO boardResponse);
+	@Update("UPDATE spboard_response SET te_content=#{te_content},te_ip=#{te_ip},te_mdate=SYSDATE WHERE te_num=#{te_num}")
 	public void updateResponse(BoardResponseVO boardResponse);
 	public void deleteResponse(Long te_num);
 	//댓글 삭제시 자식글인 답글을 모두 삭제
-	public void deleteResponseByReNum(Long re_num);
-	//부모글 삭제시 댓글의 답글이 존재하면 댓글 번호를 구해서 답글 삭제시 사용
+	@Delete("DELETE FROM spboard_response WHERE re_num=#{re_num}")
+	public void deleteResponseByReNum(Long re_num);	
+	//부모글 삭제시 댓글의 답글이 존재하면 댓글 번호를 구해서 답글 삭제
 	@Delete("DELETE FROM spboard_response WHERE re_num IN (SELECT re_num FROM spboard_reply WHERE board_num=#{board_num})")
-	public List<Long> deleteResponseByBoardNum(Long board_num);
-	
+	public void deleteResponseByBoardNum(Long board_num);
+	//답글의 개수 구하기
+	@Select("SELECT COUNT(*) FROM spboard_response WHERE re_num=#{re_num}")
+	public Integer selectResponseCount(Long re_num);
 }
 
 
