@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!-- 채팅 메시지 처리 시작 -->
-<script src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/message.talk.js"></script>
 <div id="talkDetail" class="page-main">
 	<h1 id="chatroom_title"><span id="chatroom_name">${room_name}</span> 채팅방

@@ -43,8 +43,10 @@ public class TalkServiceImpl implements TalkService{
 					talkRoomVO.getBasic_name(), mem_num);
 		}
 		//입장 메시지 처리
-		//
-		//
+		talkRoomVO.getTalkVO().setTalk_num(talkMapper.selectTalkNum());
+		talkRoomVO.getTalkVO().setTalkroom_num(talkRoomVO.getTalkroom_num());
+		talkMapper.insertTalk(talkRoomVO.getTalkVO());
+		
 	}
 
 	@Override
@@ -54,14 +56,19 @@ public class TalkServiceImpl implements TalkService{
 
 	@Override
 	public void insertTalk(TalkVO talkVO) {
-		// TODO Auto-generated method stub
-		
+		talkVO.setTalk_num(talkMapper.selectTalkNum());
+		talkMapper.insertTalk(talkVO);
+		//채팅방 멤버가 읽지 않은 채팅 정보 저장
+		for(TalkMemberVO vo : talkMapper.selectTalkMember(talkVO.getTalkroom_num())) {
+			talkMapper.insertTalkRead(talkVO.getTalkroom_num(),talkVO.getTalk_num(),vo.getMem_num());
+		}
 	}
 
 	@Override
 	public List<TalkVO> selectTalkDetail(Map<String, Long> map) {
-		// TODO Auto-generated method stub
-		return null;
+		//읽은 채팅 기록 삭제
+		talkMapper.deleteTalkRead(map);
+		return talkMapper.selectTalkDetail(map);
 	}
 
 }
