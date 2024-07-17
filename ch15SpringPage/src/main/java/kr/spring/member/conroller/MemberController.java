@@ -2,7 +2,9 @@ package kr.spring.member.conroller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -96,6 +98,24 @@ public class MemberController {
 			}
 			if(check) {//인증 성공
 				//====== 자동로그인 체크 시작 =======//
+				boolean autoLogin = memberVO.getAuto()!=null
+												&& memberVO.getAuto().equals("on");
+				if(autoLogin) {
+					//자동 로그인 체크한 경우
+					String au_id = member.getAu_id();
+					if(au_id==null) {
+						//자동로그인 체크 식별값 생성
+						au_id = UUID.randomUUID().toString();
+						log.debug("<<au_id>> : " + au_id);
+						member.setAu_id(au_id);
+						memberService.updateAu_id(member.getAu_id(),member.getMem_num());
+					}
+					Cookie auto_cookie = new Cookie("au-log", au_id);
+					auto_cookie.setMaxAge(60*60*24*7);//쿠키 유효기간은 1주일
+					auto_cookie.setPath("/");
+					
+					response.addCookie(auto_cookie);
+				}
 				//====== 자동로그인 체크 끝 =======//
 				//로그인 처리  
 				session.setAttribute("user", member);
@@ -129,10 +149,15 @@ public class MemberController {
 	 * 로그아웃
 	 ============================*/
 	@GetMapping("/member/logout")
-	public String processLogout(HttpSession session) {
+	public String processLogout(HttpSession session,HttpServletResponse response) {
 		//로그아웃
 		session.invalidate();
 		//====== 자동로그인 체크 시작 =======//
+		Cookie auto_cookie = new Cookie("au-log","");
+		auto_cookie.setMaxAge(0);//쿠키 삭제
+		auto_cookie.setPath("/");
+		
+		response.addCookie(auto_cookie);
 		//====== 자동로그인 체크 끝 =======//
 		
 		return "redirect:/main/main";

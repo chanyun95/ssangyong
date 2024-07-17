@@ -51,20 +51,17 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public void updateAu_id(String au_id, Long mem_num) {
-		// TODO Auto-generated method stub
-		
+		memberMapper.updateAu_id(au_id, mem_num);
 	}
 
 	@Override
-	public void selectAu_id(String au_id) {
-		// TODO Auto-generated method stub
-		
+	public MemberVO selectAu_id(String au_id) {
+		return memberMapper.selectAu_id(au_id);
 	}
 
 	@Override
 	public void deleteAu_id(Long mem_num) {
-		// TODO Auto-generated method stub
-		
+		memberMapper.deleteAu_id(mem_num);
 	}
 
 	@Override

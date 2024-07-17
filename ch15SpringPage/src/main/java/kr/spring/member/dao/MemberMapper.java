@@ -30,8 +30,11 @@ public interface MemberMapper {
 	public void deleteMember_detail(Long mem_num);
 	
 	//자동 로그인
+	@Update("UPDATE spmember_detail SET au_id=#{au_id} WHERE mem_num=#{mem_num}")
 	public void updateAu_id(String au_id,Long mem_num);
-	public void selectAu_id(String au_id);
+	@Select("SELECT m.mem_num,m.id,m.auth,d.au_id,d.passwd,m.nick_name,d.email FROM spmember m JOIN spmember_detail d ON m.mem_num=d.mem_num WHERE mem_num=#{mem_num}")
+	public MemberVO selectAu_id(String au_id);
+	@Update("UPDATE spmember_detail SET au_id='' WHERE mem_num=#{mem_num}")
 	public void deleteAu_id(Long mem_num);
 	
 	//비밀번호 찾기

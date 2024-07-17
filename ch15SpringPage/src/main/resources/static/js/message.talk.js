@@ -1,32 +1,48 @@
 $(function(){
-	let message_socket;	//웹소켓 식별자
+	let message_socket; //웹소켓 식별자
 	
-	
-	/*=================
-		채팅 회원 저장
-	==================*/
+	/*---------------------
+	 * 채팅 회원 저장
+	 *---------------------*/
 	let member_list = []; //채팅 회원을 저장하는 배열
 	
 	//채팅방 멤버를 저장하는 배열에 정보 셋팅
 	//채팅방 또는 채팅 페이지를 인식해서 채팅방 멤버를 초기 셋팅
-	if($('#talkWrite').length>0){
+	if($('#talkWrite').length>0){//채팅방 생성 페이지
 		member_list = [$('#user').attr('data-id')];
 		console.log(member_list);
 	}else if($('#talkDetail').length>0){//채팅 페이지
-		connenctWebSocket();//웹소켓 생성
-		member_list = $('#chat_member').text().split(',');
+		connectWebSocket();//웹소켓 생성
+		member_list = $('#chat_member').text().split(',');	
 	}
-	/*=================
-		웹소켓 연결
-	==================*/
-	function connenctWebSocket(){
-		
+	/*---------------------
+	 * 웹소켓 연결
+	 *---------------------*/
+	function connectWebSocket(){
+		message_socket = new WebSocket('ws://localhost:8000/message-ws');
+		message_socket.onopen=function(evt){
+			console.log('채팅페이지 접속 : ' + $('#talkDetail').length);
+			if($('#talkDetail').length==1){
+				message_socket.send('msg');
+			}
+		};
+		//서버로부터 메시지를 받으면 호출되는 함수 지정
+		message_socket.onmessage=function(evt){
+			//메시지 읽기
+			let data = evt.data;
+			if($('#talkDetail').length==1 
+			           && data.substring(0,3)=='msg'){
+				selectMsg();
+			}
+		};
+		message_socket.onclose=function(evt){
+			//소켓이 종료된 후 부과적인 작성이 있을 경우 명시
+			console.long('chat close');
+		};
 	}
-	
-	
-	/*=================
-		채팅방 생성
-	==================*/
+	/*---------------------
+	 * 채팅방 생성하기
+	 *---------------------*/
 	//회원 정보 검색
 	$('#member_search').keyup(function(){
 		if($('#member_search').val().trim()==''){
@@ -46,8 +62,8 @@ $(function(){
 				}else if(param.result == 'success'){
 					$('#search_area').empty();
 					$(param.member).each(function(index,item){
-						//채팅방 개설자의 아이디와 동일한 아이디 체크 후
-						//이미 member_list에 저장된 아이디 제외
+						//채팅방 개설자의 아이디와 동일한 아이디와
+						//이미 member_list에 저장된 아이디를 제외
 						if(!member_list.includes(item.id)){
 							let output = '';
 							output += '<li data-num="'+item.mem_num+'">';
@@ -70,7 +86,7 @@ $(function(){
 		let id = $(this).text();//선택한 아이디
 		let mem_num = $(this).attr('data-num');//선택한 회원번호
 		member_list.push(id);
-		//선택한 아이디를 화면에 표시
+		//선택한 id를 화면에 표시
 		let choice_id = '<span class="member-span" data-id="'+id+'">';
 		choice_id += '<input type="hidden" name="members" value="'+mem_num+'">';
 		choice_id += id + '<sup>&times;</sup></span>';
@@ -96,9 +112,8 @@ $(function(){
 		if($('#talk_member span').length==0){
 			$('#name_span').text('');
 			$('#basic_name').val('');
-		}
+		}		
 	});
-	
 	//채팅방 이름 생성 방식 정하기(자동/수동)             
 	$('#name_checked').click(function(){
 		if($('#name_checked').is(':checked')){//채팅방 이름 자동 생성
@@ -134,13 +149,9 @@ $(function(){
 			return false;
 		}
 	});
-	/*=================
-		채팅하기
-	==================*/
-	//채팅 데이터 읽기
-	function selectMsg(){
-		
-	}
+	/*---------------------
+	 * 채팅하기
+	 *---------------------*/
 	//메시지 입력 후 enter 이벤트 처리
 	$('#message').keydown(function(event){
 		if(event.keyCode == 13 && !event.shiftKey){
@@ -150,12 +161,12 @@ $(function(){
 	//채팅 메시지 등록
 	$('#detail_form').submit(function(event){
 		if($('#message').val().trim()==''){
-			alert('메시지를 입력하세요.');
+			alert('메시지를 입력하세요');
 			$('#message').val('').focus();
 			return false;
 		}
 		if($('#message').val().length>1333){
-			alert('메시지를 1333자 까지만 입력 가능합니다.');
+			alert('메시지를 1333자까지만 입력 가능합니다.');
 			return false;
 		}
 		//입력한 데이터 읽기
@@ -169,17 +180,19 @@ $(function(){
 			success:function(param){
 				if(param.result == 'logout'){
 					alert('로그인해야 작성할 수 있습니다.');
+					message_socket.close();
 				}else if(param.result == 'success'){
 					//폼 초기화
 					$('#message').val('').focus();
-					//나중에 웹소켓을 변경
-					selectMsg();
+					message_socket.send('msg');
 				}else{
 					alert('채팅 메시지 등록 오류 발생');
+					message_socket.close();
 				}
 			},
 			error:function(){
 				alert('네트워크 오류 발생');
+				message_socket.close();
 			}
 		});//end of ajax
 		//기본 이벤트 제거
@@ -244,19 +257,16 @@ $(function(){
 					});	
 				}else{
 					alert('채팅 메시지 읽기 오류 발생');	
+					message_socket.close();
 				}
 			},
 			error:function(){
 				alert('네트워크 오류 발생');
+				message_socket.close();
 			}
 		});	
 	}
-	selectMsg();
 });
-
-
-
-
 
 
 
