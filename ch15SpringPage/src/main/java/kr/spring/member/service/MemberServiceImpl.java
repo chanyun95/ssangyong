@@ -66,8 +66,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public void updateRandomPassword(MemberVO member) {
-		// TODO Auto-generated method stub
-		
+		memberMapper.updateRandomPassword(member);
 	}
 
 	@Override
@@ -78,5 +77,10 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public List<MemberVO> selectSearchMember(String id) {
 		return memberMapper.selectSearchMember(id);
+	}
+
+	@Override
+	public MemberVO checkUser(String id) {
+		return memberMapper.checkUser(id);
 	}	
 }

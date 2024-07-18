@@ -5,15 +5,15 @@
 <h2 class="align-center">SpringPage</h2>
 <div class="align-right">
 	<a href="${pageContext.request.contextPath}/board/list">게시판</a>
-	<c:if test="${!empty user}">
+	<c:if test="${!empty user && profile == null}">
 		<img src="${pageContext.request.contextPath}/member/photoView" width="25" height="25" class="my-photo">
 		<a href="${pageContext.request.contextPath}/member/myPage">MY페이지</a>
 		<a href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
 	</c:if>
-	<c:if test="${userId != null}">
-		<form name="Logout" action="http://localhost:8000/logout">
-			<input type="submit" value="로그아웃">
-		</form>
+	<c:if test="${!empty user && profile != null}">
+	    <img src="${profile}" width="25" height="25" class="my-photo">
+	    <a href="${pageContext.request.contextPath}/member/myPage">MY페이지</a>
+	    <a href="${pageContext.request.contextPath}/member/kakaologout">로그아웃</a>
 	</c:if>
 	<c:if test="${empty user}">
 		<a href="${pageContext.request.contextPath}/member/registerUser">회원가입</a>

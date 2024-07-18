@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -38,6 +39,7 @@ public interface MemberMapper {
 	public void deleteAu_id(Long mem_num);
 	
 	//비밀번호 찾기
+	@Update("UPDATE spmember_detail SET passwd=#{passwd} WHERE mem_num=#{mem_num}")
 	public void updateRandomPassword(MemberVO member);
 	
 	//프로필 이미지 업데이트
@@ -47,6 +49,10 @@ public interface MemberMapper {
 	//채팅 회원 정보 검색
 	@Select("SELECT mem_num,id,nick_name FROM spmember WHERE auth >=2 AND id LIKE '%' || #{id} || '%'")
 	public List<MemberVO> selectSearchMember(String id);
+	
+	//카카오 로그인
+	@Select("SELECT * FROM spmember WHERE id=#{id}")
+	public MemberVO checkUser(@Param("id") String id);
 }
 
 

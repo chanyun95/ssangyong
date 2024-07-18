@@ -1,4 +1,4 @@
-package kr.spring.member.conroller;
+package kr.spring.member.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -357,6 +357,13 @@ public class MemberController {
 		}
 		return "imageView";
 	}
-	
+	/*=============================
+	 * 비밀번호 찾기
+	 ============================*/
+	@GetMapping("/member/sendPassword")
+	public String sendPasswordForm() {
+		
+		return "memberFindPassword";
+	}
 
 }

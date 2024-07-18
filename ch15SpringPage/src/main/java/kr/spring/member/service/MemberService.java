@@ -2,7 +2,7 @@ package kr.spring.member.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Param;
 
 import kr.spring.member.vo.MemberVO;
 
@@ -28,4 +28,6 @@ public interface MemberService {
 	
 	//채팅 회원 정보 검색
 	public List<MemberVO> selectSearchMember(String id);
+	//카카오 로그인 회원 체크
+	public MemberVO checkUser(@Param("id") String id);
 }

@@ -32,9 +32,16 @@
 	</p>
 	<hr size="1" width="90%" noshade="noshade">
 	<c:if test="${userId == null}">
-		<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&amp;client_id=c37546ec572f00c776f1b466369745f3&amp;redirect_uri=http://localhost:8000/member/login">
-			<img src="../images/kakao_login_medium_narrow.png">
+		<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&amp;client_id=c37546ec572f00c776f1b466369745f3&amp;redirect_uri=http://localhost:8000/member/kakaologin">
+			<img src="${pageContext.request.contextPath}/images/kakao_login_medium_narrow.png">
 		</a>
+	</c:if>
+	<c:if test="${userId != null}">
+		<form name="Logout" action="http://localhost:8000/logout">
+			<div></div>
+			<img src="${photo}">
+			<input type="submit" value="로그아웃">
+		</form>
 	</c:if>
 </div>
 <!-- 회원로그인 끝 -->

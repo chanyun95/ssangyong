@@ -8,11 +8,11 @@
 	<form:form action="registerUser" id="member_register" modelAttribute="memberVO">
 		<ul>
 			<li>
-				<form:label path="id">아이디</form:label>
-				<form:input path="id" placeholder="영문,숫자만 4~12자" autocomplete="off"/>
-				<input type="button" id="confirmId" value="ID중복체크" class="default-btn">
-				<span id="message_id"></span>
-				<form:errors path="id" cssClass="error-color"/>
+					<form:label path="id">아이디</form:label>
+					<form:input path="id" placeholder="영문,숫자만 4~12자" autocomplete="off"/>
+					<input type="button" id="confirmId" value="ID중복체크" class="default-btn">
+					<span id="message_id"></span>
+					<form:errors path="id" cssClass="error-color"/>
 			</li>
 			<li>
 				<form:label path="name">이름</form:label>
